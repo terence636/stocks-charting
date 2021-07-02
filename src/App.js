@@ -5,8 +5,6 @@ import Main from "./components/Main"
 // dotenv.config()
 
 function App() {
-  const apiKey = process.env.REACT_APP_VANTAGE_API_KEY
-  console.log("apikey at app",apiKey)
   return (
     <div>
       <Main />
