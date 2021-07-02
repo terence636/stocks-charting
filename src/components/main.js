@@ -9,7 +9,7 @@ const symbol = "&symbol=BABA";
 const outputSize = "&outputsize=compact";
 const apiKey = "&apikey=" + process.env.REACT_APP_VANTAGE_API_KEY;
 const apiKeyDemo = "demo";
-const URL = baseURL + functionType + symbol + outputSize + apiKeyDemo;
+const URL = baseURL + functionType + symbol + outputSize + apiKey;
 
 console.log("apiKey", apiKey);
 const stockXValuesFunction = [];
@@ -20,6 +20,8 @@ const stockYValuesFunction = [];
 const Main = () => {
   // Your State is here
   const [dataPoints, setDataPoints] = useState(stockData);
+  const [dateXValues, setDateXValues] = useState([])
+  const [priceYValues, setPriceYValues] = useState([])
   console.log("dataPoints", dataPoints);
   //Fetch data here
   useEffect(() => {
@@ -41,6 +43,9 @@ const Main = () => {
           stockYValuesFunction.push(
             data["Time Series (Daily)"][key]["4. close"]
           );
+          setDataPoints(data)
+          setDateXValues([...stockXValuesFunction])
+          setPriceYValues([...stockYValuesFunction])
         }
         //setState
         // setDataPoint({stockXValues,stockYValues})
@@ -52,18 +57,17 @@ const Main = () => {
   }, []);
 
   // Collect date and price point
-  for (let key in dataPoints["Time Series (Daily)"]) {
-    // stockXYValues.push(new Date(key))
-    // stockXYValues.push(data['Time Series (Daily)'][key]['4. close'])
-    // allPoints.push(stockXYValues)
-    // stockXYValues = []
-    stockXValuesFunction.push(key);
-    stockYValuesFunction.push(
-      dataPoints["Time Series (Daily)"][key]["4. close"]
-    );
-  }
-  console.log("X", stockXValuesFunction);
-  console.log("Y", stockYValuesFunction);
+//   for (let key in dataPoints["Time Series (Daily)"]) {
+   
+//     stockXValuesFunction.push(key);
+//     stockYValuesFunction.push(
+//       dataPoints["Time Series (Daily)"][key]["4. close"]
+//     );
+//   }
+  console.log("Data", dataPoints)
+  console.log("X", dateXValues);
+  console.log("Y", priceYValues);
+
   // console.log(...dataPoints)
   // if(dataPoints === [])
   //   return
@@ -75,8 +79,10 @@ const Main = () => {
       <Plot
         data={[
           {
-            x: stockXValuesFunction,
-            y: stockYValuesFunction,
+            // x: stockXValuesFunction,
+            // y: stockYValuesFunction,
+            x: dateXValues,
+            y: priceYValues,
             type: "scatter",
             mode: "lines",
             name: "Lines",
@@ -90,8 +96,10 @@ const Main = () => {
         layout={{ width:720, height: 440, title: dataPoints["Meta Data"]["2. Symbol"] }}
       />
 
-      <p>X-Value: {stockXValuesFunction}</p>
-      <p>Y-Value: {stockYValuesFunction}</p>
+      {/* <p>X-Value: {stockXValuesFunction}</p>
+      <p>Y-Value: {stockYValuesFunction}</p> */}
+      <p>x-value: {dateXValues}</p>
+      <p>y-value: {priceYValues}</p>
     </div>
   );
 };
