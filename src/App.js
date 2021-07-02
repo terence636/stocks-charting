@@ -11,15 +11,15 @@ const apiKey = '&apikey=XW0YLMZBBXDYRUEK'
 const apiKeyDemo = 'demo'
 const URL = baseURL + functionType + symbol + outputSize + apiKey
 
-// const stockXValues = []
-// const stockYValues = []
-let stockXYValues = []
-const allPoints = []
+const stockXValuesFunction = []
+const stockYValuesFunction = []
+// let stockXYValues = []
+// const allPoints = []
 
 
-const Main = () => {
+const App = () => {
     // Your State is here
-    const [dataPoints, setDataPoints] = useState([])
+    // const [dataPoints, setDataPoints] = useState([])
 
     //Fetch data here
     useEffect(()=> {
@@ -34,22 +34,25 @@ const Main = () => {
             // Collect date and price point
             for(let key in data['Time Series (Daily)']) {
 
-                stockXYValues.push(new Date(key))
-                stockXYValues.push(data['Time Series (Daily)'][key]['4. close'])
-                allPoints.push(stockXYValues)
-                stockXYValues = []
+                // stockXYValues.push(new Date(key))
+                // stockXYValues.push(data['Time Series (Daily)'][key]['4. close'])
+                // allPoints.push(stockXYValues)
+                // stockXYValues = []
+                stockXValuesFunction.push(key)
+                stockYValuesFunction.push(data['Time Series (Daily)'][key]['4. close'])
+
             }
             //setState
             // setDataPoint({stockXValues,stockYValues})
-            setDataPoints(allPoints)
-            console.log("allPoints",allPoints)
+            // setDataPoints(allPoints)
+            // console.log("allPoints",allPoints)
           })  
 
     },[])
     
     // console.log(...dataPoints)
-    if(dataPoints === [])
-      return
+    // if(dataPoints === [])
+    //   return
 
 
     return (
@@ -74,4 +77,4 @@ const Main = () => {
     
 }
 
-export default Main
+export default App
